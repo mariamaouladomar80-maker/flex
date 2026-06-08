@@ -1,7 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { MapPin, ShoppingBag } from 'lucide-react'
+import Link from 'next/link'
+import { MapPin, ShoppingBag, QrCode } from 'lucide-react'
 
 const TABS = [
   { id: 'pedidos', label: 'Pedidos', icon: ShoppingBag },
@@ -79,6 +80,14 @@ export default function MiAreaClient({ perfil, pedidos, reservas }) {
                   <span>{formatFecha(r.inicio)} – {formatFecha(r.fin)}</span>
                   <span className={`px-2 py-0.5 rounded-full font-medium ${estado.cls}`}>{estado.label}</span>
                 </div>
+                {r.estado_pago === 'pagado' && r.qr_token && (
+                  <Link
+                    href={`/entrada/${r.qr_token}`}
+                    className="mt-3 flex items-center gap-2 justify-center w-full py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-100 text-xs font-medium transition-colors"
+                  >
+                    <QrCode size={14} /> Ver entrada
+                  </Link>
+                )}
               </div>
             )
           })}
